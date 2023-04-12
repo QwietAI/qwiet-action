@@ -1,0 +1,36 @@
+name: "qwiet"
+description: "The AI powered AppSec platform that your developers will love."
+inputs:
+  src:
+    description: "Source directory. Defaults to workspace"
+    required: false
+    default: "/github/workspace"
+  out_dir:
+    description: "Output directory for generated CPG"
+    required: false
+    default: "/github/workspace/cpg_out"
+  export_out_dir:
+    description: "Output directory for exported graphs. Set the environment variable CPG_EXPORT to true"
+    required: false
+    default: "/github/workspace/cpg_export"
+  lang:
+    description: "Language frontend to use. Defaults to autodetect which can generate multiple CPGs"
+    required: false
+    default: autodetect
+runs:
+  using: "docker"
+  image: "docker://ghcr.io/appthreat/cpggen:main"
+  args:
+    - "cpggen"
+    - "--src"
+    - ${{ inputs.src }}
+    - "--out-dir"
+    - ${{ inputs.out_dir }}
+    - "--lang"
+    - ${{ inputs.lang }}
+    - "--build"
+    - "--export-out-dir"
+    - ${{ inputs.export_out_dir }}
+branding:
+  icon: "check"
+  color: "blue"
